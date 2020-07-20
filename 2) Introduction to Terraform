@@ -1,0 +1,19 @@
+Terraform
+=========
+1) It is infrastrucure as a code. suppoe if you want to spin up some EC2 instance in cliud then instead of going into
+    web console, you can use code to accomplish the task with the help of Terraform
+2) It is a automation of your infrastructure
+3) It keeps your infrastructure in a certain state (compliant)
+    ex: Suppose you want to spin up two AWS instances with two volume group and one load balancer, and you have mentioned
+        the same in terraform code. So your terraform code will do as instructed. now suppose if in case one instance   
+        gets deleted by mistake or is removed manually, then terraform will make sure that your environment remains
+        in that state onle and it will spin up one more instance on your behalf
+4) It makes you infrastructure more auditable : So if someone wants to audit your infrastructure, they can just have 
+    a look at the terraform code files and will able to understand what your infrastructure has inside.
+5) Also you can store your infra history in a vesion control system like git. what whatever change you do, you will find 
+    its change trail in version control system.
+6) Ansible, chef, puppet, saltstack have focus on automating the installation and configuration of software. like keeping
+    the machine in compliance, in certain state.
+7) Terraform can automate provisioning  of the infrastructure itself by using AWS, digital ocean, Azure API.
+8) Terraform works well with the automation softwares like Ansible and chef for installation of software after
+    infrastrure provisioned.

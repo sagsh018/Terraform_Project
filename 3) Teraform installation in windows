@@ -1,0 +1,12 @@
+1) Go to https://www.terraform.io/ website.
+2) Go to downloads -- https://www.terraform.io/downloads.html
+3) On download page, you can choose the required version based on your OS
+4) first we are trying to downloading for windows. Note that it will be a zip file. so you can extract the file and install
+    the applications.
+5) We will unzip the terraform software zip file in our terraform directory => C:\Users\Sagar\projects\Terraform_Project
+6) So this will care terraform application in above folder==> C:\Users\Sagar\projects\Terraform_Project\terraform
+7) we can add the same path to path variable in order for terraform to work from everywhere.
+8) Then close the shell/cmd and then reopen and test the installation using below command
+    terraform --version
+9) We have already created ssh keys under home directory  -- /c/Users/Sagar using command ssh-keygen
+

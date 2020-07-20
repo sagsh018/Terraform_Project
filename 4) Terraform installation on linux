@@ -1,0 +1,22 @@
+1) So here we are going to install Linux VM using vagrant VM.
+2) Note that we are going to clone the repo having vagrant file and one install.sh script for installation of important 
+    softwares like ansible, etc.
+3) so in our working directory : /c/Users/Sagar/projects/Terraform_Project, run the below command
+    git clone https://github.com/wardviaene/devops-box
+
+    Vagrantfile
+    ===========
+    #Vagrant.configure(2) do |config|
+	#config.vm.define "devops-box" do |devbox|
+	#	devbox.vm.box = "ubuntu/bionic64"
+    #		#devbox.vm.network "private_network", ip: "192.168.199.9"
+    #		#devbox.vm.hostname = "devops-box"
+    # 		devbox.vm.provision "shell", path: "scripts/install.sh"
+    #		devbox.vm.provider "virtualbox" do |v|
+    #		  v.memory = 4096
+    #		  v.cpus = 2
+    #		end
+	#   end
+    #end
+    So we can use "vagrant up" in order to bring up the VM and install the necessary softwares with the help of shell 
+    script ==> /c/Users/Sagar/projects/Terraform_Project/devops-box/scripts/install.sh
