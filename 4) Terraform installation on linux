@@ -18,5 +18,7 @@
     #		end
 	#   end
     #end
-    So we can use "vagrant up" in order to bring up the VM and install the necessary softwares with the help of shell 
+    So we can use "vagrant up" under followiing directory "/c/Users/Sagar/projects/Terraform_Project/devops-box" in order 
+    to bring up the VM and install the necessary softwares with the help of shell 
     script ==> /c/Users/Sagar/projects/Terraform_Project/devops-box/scripts/install.sh
+    
