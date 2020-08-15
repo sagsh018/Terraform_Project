@@ -1,0 +1,189 @@
+Terraform HCL (HashiCorp Configuration Language)
+================================================
+
+Here we are going to understand the syntax of Tarraform.
+
+1) Lets create a directory under our working location for terraform 
+    /c/Users/Sagar/projects/Terraform_Project
+    # mkdir terrafor-test
+    # cd terraform-test
+    and lets create a sample files which terraform can interpret that is the file with .tf extention.
+2) So now lets create a new file "main.tf" inside terraform-test directory
+    variable "myvar" {
+    type = string
+    default = "Hello Terraform"
+    }
+    So here in main.tf we have created a variable named as "myvar" and defined its properties and its default value.
+    Now we can check and run these kind of snippets by using terraform console 
+    So run the following on shell prompt
+    # terraform console
+    This will move you to terraform console prompt and there you can run below command to test the code written inside
+    main.tf
+    # var.myvar
+    o/p:
+        ←[J> var.myvar
+            Hello Terraform
+    We can also use variables using below format as well:
+    # "${var.myvar}"
+    This will also give same output as above.
+    To exit the terraform console, we can run command exit
+3) Now lets declare one more variable in our main.tf as below
+    variable "mymap" {
+        type = map(string)
+        default = {
+            mykey = "My Value"
+        }
+    }
+    and again if go into terraform console and check out the mymap variable using below variable we will get as below
+    # var.mymap
+    {
+        "mykey" = "My Value"
+    }
+    So we got a map of value key(mykey) and its value(My value)
+    Also sicne mymap can contain string so we can also get a value from mykey usiug below command on terraform console
+    # var.mymap["mykey"] 
+    Another notation we can have is
+    # "${var.mympa["mykey"]}"
+    This will also return the same output but syntax is different
+    Slight modification for practice
+    variable "mymap" {
+        type = map(string)
+        default = {
+            mykey1 = "My Value1"
+            mykey2 = "My value2"
+            mykey3 = "My value3"
+        }
+    }
+4) Now lets consider another thing in this main.tf. i.e. Lists
+    variable "mylist" {
+    type = list
+    default = [1,2,3]
+    }
+    So this is going to declare another variable which is of type list and we have not notified to terraform whether
+    this is a list of string or any other data type. Terraform is going to decide itself.
+    If we again go to terraform console and type as below
+    # var.mylist
+    o/p:
+        [
+            1,
+            2,
+            3,
+        ]
+    If we want to get any perticular element of a list we can run below command in terraform console.
+    # var.mylist[0]
+    o/p : 1
+    # var.mylist[1]
+    o/p: 2
+    and so on. Notice indexing in this list is starting from 0.
+    Now let us also use an example of functions here to find out the first element of the list mylist
+    # element(var.mylist, 1)
+    So here "element is one of the function used in terraform syntax. which is returing back the 1st element
+    # slice(var.mylist, 0, 2)
+    Here we have slice function which is returing the slice of the list starting from 0 upto 2 but not including its
+    so the output : 
+        [
+            1,
+            2,
+        ]
+    
+    Also consider another example of a list
+    variable "mylist" {
+        type = list(string)
+        default = [1,2,3]
+    }
+    This time we have declared our list "mylist" to have string values only
+    So if we again run # var.mylist, we will get a list of string representation as below
+    [
+        "1",
+        "2",
+        "3",
+    ]
+So the ones we have understood where variable
+now lets understand resources.
+
+5) Notice that to create resources we also have to specify provider. So lets go ahead and create another terraform
+    file named as resource.tf
+    provider "aws" {
+
+    }
+    So here we have first mentioned the provider. and inside the curly braces we can then put the attributes of the 
+    provider
+    We will setup our cloud provider and then we will fill up these attributes here
+
+    Now lets add the resource in resource.tf file as well as below
+    resource "aws_instance" "example" {
+        ami            = var.AMIS[var.AWS_REGION]
+        instance_type  = "t2.micro"
+    }   
+    So here "resource" is a keyword for declaring resource, Then "aws_instance" is a type of resource we want. Then
+    "example" is a name of resource. 
+    then inside the curly braces we are giving properties/arguement that we pass to the resource. 
+    Notice that AMIS is a variable which means image ID, to have different image ID's based on what AWS_REGION you are in
+    Also AWS_REGION is a variable which is pre defined.
+
+    So lets declare variable "AWS_REGION"
+    There are two different ways to declare "AWS_REGION" variable
+    a) declare it inside resource.tf itself as below
+        variable "AWS_REGION" {
+            type = string
+            default = "eu-west-1"
+        }
+    b) We can give the default values of variable inside separate file named as terraform.tfvar
+        AWS_REGION="eu-west-1"
+        add above line and save it
+    So these are the two ways we can use variables in the resource.
+6) Notice if we try to run terraform console right now, its going to give us an error because we have to initialize our
+    plugins first
+    So lets initialize the plugin for cloud provider which we have mentioned aws provifer in resource.tf
+    So run below in cmd line before opening terraform console
+    # terraform init
+    This will give the below output
+    ======================================================================================
+    Initializing the backend...
+
+    Initializing provider plugins...
+    - Checking for available provider plugins...
+    - Downloading plugin for provider "aws" (hashicorp/aws) 3.2.0...
+
+    The following providers do not have any version constraints in configuration,
+    so the latest version was installed.
+
+    To prevent automatic upgrades to new major versions that may contain breaking
+    changes, it is recommended to add version = "..." constraints to the
+    corresponding provider blocks in configuration, with the constraint strings
+    suggested below.
+
+    * provider.aws: version = "~> 3.2"
+
+    Terraform has been successfully initialized!
+
+    You may now begin working with Terraform. Try running "terraform plan" to see
+    any changes that are required for your infrastructure. All Terraform commands
+    should now work.
+
+    If you ever set or change modules or backend configuration for Terraform,
+    rerun this command to reinitialize your working directory. If you forget, other
+    commands will detect it and remind you to do so if necessary.
+    ====================================================================================
+    now if we try to run terraform console it will not give any error as we have already initialized the plugin
+
+    # terraform console
+    ←[J> var.AWS_REGION
+        eu-west-1
+    So it is capturing the value of variable "AWS_REGION" from file "terraform.tfvar"
+7) Notice that during this terraform console run we get one file named as "terraform.tfstate" which basically keep the 
+    state of terraform.
+8) Now lets also define our another variable used in reources : AMIS like below in resource.tf itself
+    variable "AMIS" {
+        type = map(string)
+        default {
+            eu-west-1 = "my ami"
+        }
+    }
+    Now again if we run terraform console then we can get the ami value as below
+    # var.AMIS[var.AWS_REGION]
+    o/p:my ami
+
+9) Note that everytime you are going to change your cloud provider, or you using a module or a plugin then you have to 
+    run terraform init.
+    
